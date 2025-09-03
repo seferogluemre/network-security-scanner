@@ -175,7 +175,7 @@ if __name__ == '__main__':
     print("=" * 50)
     print(f"📡 Servis: {SERVICE_NAME}")
     print(f"🔢 Versiyon: {API_VERSION}")
-    print(f"🌐 URL: http://localhost:5000")
+    print(f"🌐 URL: http://localhost:8080")
     print("\n📋 Endpoint'ler:")
     print("   GET  /                    - Ana sayfa")
     print("   GET  /api/health          - Sağlık kontrolü")
@@ -186,4 +186,4 @@ if __name__ == '__main__':
     print("\n✨ Ctrl+C ile durdurun")
     print("=" * 50)
     
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=8080)
