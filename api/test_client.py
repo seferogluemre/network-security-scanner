@@ -39,7 +39,6 @@ class NetScoutAPIClient:
             return False, str(e)
     
     def fast_scan(self, target="127.0.0.1", start=1, end=100, threads=50):
-        """Hızlı tarama testi"""
         payload = {
             "target": target,
             "start_port": start,
@@ -58,7 +57,6 @@ class NetScoutAPIClient:
             return False, str(e)
     
     def discover_network(self, network=None):
-        """Ağ keşfi testi"""
         payload = {}
         if network:
             payload["network"] = network
@@ -74,7 +72,6 @@ class NetScoutAPIClient:
             return False, str(e)
     
     def simple_scan(self, target="127.0.0.1"):
-        """Basit GET tarama testi"""
         try:
             response = self.session.get(
                 f"{self.base_url}/api/scan/simple",
@@ -86,7 +83,6 @@ class NetScoutAPIClient:
             return False, str(e)
 
 def print_result(test_name, success, result):
-    """Test sonucunu yazdır"""
     status = "✅ BAŞARILI" if success else "❌ BAŞARISIZ"
     print(f"\n{status} - {test_name}")
     print("-" * 50)
@@ -97,14 +93,12 @@ def print_result(test_name, success, result):
         print(f"Hata: {result}")
 
 def run_all_tests():
-    """Tüm testleri çalıştır"""
     print("🧪 NetScout API Test Suite")
     print("=" * 60)
     print(f"⏰ Test zamanı: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     client = NetScoutAPIClient()
     
-    # 1. Bağlantı Testi
     print("\n1️⃣ API Bağlantı Testi")
     success, result = client.test_connection()
     print_result("Health Check", success, result)
@@ -118,17 +112,14 @@ def run_all_tests():
     success, result = client.simple_scan("127.0.0.1")
     print_result("Simple Scan", success, result)
     
-    # 3. Detaylı Port Tarama
     print("\n3️⃣ Detaylı Port Tarama (POST)")
     success, result = client.scan_ports("127.0.0.1", [80, 443, 3000, 22, 21])
     print_result("Port Scan", success, result)
     
-    # 4. Hızlı Tarama
     print("\n4️⃣ Hızlı Port Tarama (Threading)")
     success, result = client.fast_scan("127.0.0.1", 1, 200, 30)
     print_result("Fast Scan", success, result)
     
-    # 5. Ağ Keşfi (Opsiyonel - yavaş olabilir)
     print("\n5️⃣ Ağ Keşfi (Otomatik)")
     print("⚠️  Bu test biraz uzun sürebilir...")
     success, result = client.discover_network()
@@ -138,10 +129,8 @@ def run_all_tests():
     print("=" * 60)
 
 def interactive_test():
-    """Etkileşimli test modu"""
     client = NetScoutAPIClient()
     
-    # Bağlantı kontrolü
     success, _ = client.test_connection()
     if not success:
         print("❌ API server bağlantısı kurulamadı!")
