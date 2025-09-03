@@ -3,9 +3,9 @@ import os
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from netscout.core.port_scanner import PortScanner
-from netscout.core.network_discovery import NetworkDiscovery
-from netscout.core.threaded_scanner import FastPortScanner
+from core.port_scanner import PortScanner
+from core.network_discovery import NetworkDiscovery
+from core.threaded_scanner import FastPortScanner
 
 def show_banner():
     print("""
@@ -73,6 +73,37 @@ def port_scan_menu():
     print(f"Açık portlar: {len(results['open_ports'])}")
     for port_info in results['open_ports']:
         print(f"✅ {port_info['port']} - {port_info['service']}")
+
+def network_discovery_menu():
+    from core.network_discovery import NetworkDiscovery, get_local_network
+    
+    discovery = NetworkDiscovery()
+    network, local_ip = get_local_network()
+    
+    print(f"\n🏠 Kendi IP'n: {local_ip}")
+    print(f"🌐 Tahmin edilen ağ: {network}")
+    
+    choice = input(f"\n1. Bu ağı tara ({network})\n2. Özel ağ gir\nSeçim: ")
+    
+    if choice == "1":
+        discovery.discover_network(network)
+    elif choice == "2":
+        custom_network = input("Ağ aralığı (örn: 192.168.0.0/24): ")
+        discovery.discover_network(custom_network)
+
+def fast_scan_menu():
+    from core.threaded_scanner import FastPortScanner
+    
+    target = input("🎯 Hedef IP: ").strip() or "127.0.0.1"
+    start = int(input("Başlangıç port: "))
+    end = int(input("Bitiş port: "))
+    threads = int(input("Thread sayısı (Enter=100): ") or "100")
+    
+    scanner = FastPortScanner(max_threads=threads)
+    scanner.scan_port_range_threaded(target, start, end)
+
+def detailed_report_menu():
+    print("🚧 Bu özellik yakında gelecek!")
 
 if __name__ == "__main__":
     show_banner()
