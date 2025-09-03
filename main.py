@@ -25,7 +25,6 @@ def scan_common_ports(target_ip):
 
     print(f"Target: {target_ip}")
     print(f"Scanning Started.... {datetime.now().strftime('%H:%M:%S')}")
-    print("-",* 50)
 
     open_ports=[]
 
@@ -42,7 +41,7 @@ def scan_common_ports(target_ip):
 # main program
 if __name__ == "__main__":
     # local test
-    target = "127.0.0.1"  # localhost
+    target = input("Tarancak Portu giriniz: ")  # localhost
     
     print("🔍 Basit Port Scanner v1.0")
     print("=" * 50)
