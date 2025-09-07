@@ -12,7 +12,6 @@ class HostCreateRequest(BaseModel):
     
     @validator('ip_address')
     def validate_ip(cls, v):
-        # Basic IP validation
         ip_pattern = r'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
         if not re.match(ip_pattern, v):
             raise ValueError('Invalid IP address format')
