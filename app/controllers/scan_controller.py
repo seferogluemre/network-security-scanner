@@ -207,10 +207,8 @@ def get_scan_statistics():
             error_code="STATS_ERROR"
         ).dict()), 500
 
-# Health check endpoint
 @scan_bp.route('/health', methods=['GET'])
 def health_check():
-    """Scan service health check"""
     controller_logger.info("🩺 Health check requested")
     
     try:
