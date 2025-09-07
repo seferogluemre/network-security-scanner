@@ -1,46 +1,42 @@
+import sys
+import os
+# Ana dizini Python path'ine ekle
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from flask import Flask, jsonify
 from flask_cors import CORS
 from app.config.settings import get_config
 from app.config.database import init_database, db
 from app.controllers.scan_controller import scan_bp
 from app.utils.logger import setup_logger
-import os
 
 def create_app(config_name: str = None) -> Flask:
     """Flask app factory"""
     
-    # Logger setup
     logger = setup_logger("netscout.app", "INFO")
     logger.info("🚀 NetScout Enterprise Backend starting...")
     
-    # Flask app oluştur
     app = Flask(__name__)
     logger.info("✅ Flask app created")
     
-    # Configuration yükle
     config = get_config(config_name)
     app.config.from_object(config)
     logger.info(f"⚙️  Configuration loaded: {config.__class__.__name__}")
     
-    # CORS enable
     CORS(app)
     logger.info("🌐 CORS enabled")
     
-    # Database initialize
     logger.info("🗄️  Initializing database...")
     init_database(app)
     logger.info("✅ Database initialized")
     
-    # Register blueprints (Controllers)
     logger.info("📋 Registering blueprints...")
     app.register_blueprint(scan_bp)
     logger.info("✅ Scan controller registered")
     
-    # Global error handlers
     register_error_handlers(app, logger)
     logger.info("⚠️  Error handlers registered")
     
-    # Health check endpoint
     @app.route('/health', methods=['GET'])
     def health_check():
         logger.info("🩺 Global health check requested")
@@ -52,7 +48,6 @@ def create_app(config_name: str = None) -> Flask:
             'environment': app.config.get('ENV', 'development')
         }), 200
     
-    # API info endpoint
     @app.route('/api/info', methods=['GET'])
     def api_info():
         logger.info("ℹ️  API info requested")
@@ -77,7 +72,6 @@ def create_app(config_name: str = None) -> Flask:
             ]
         }), 200
     
-    # Ana sayfa
     @app.route('/', methods=['GET'])
     def home():
         logger.info("🏠 Home page requested")
@@ -140,17 +134,13 @@ def register_error_handlers(app: Flask, logger):
             'error_code': 'UNEXPECTED_ERROR'
         }), 500
 
-# Development server
 if __name__ == '__main__':
-    # Environment variables
     config_name = os.environ.get('FLASK_ENV', 'development')
     port = int(os.environ.get('PORT', 8080))
     host = os.environ.get('HOST', '0.0.0.0')
     
-    # Create app
     app = create_app(config_name)
     
-    # Run server
     print("🚀 Starting NetScout Enterprise Server...")
     print("=" * 60)
     print(f"🌐 URL: http://localhost:{port}")

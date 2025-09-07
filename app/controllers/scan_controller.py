@@ -3,8 +3,8 @@ from email import message
 from flask import Blueprint, request, jsonify
 from typing import Dict, Any
 from app.services.scan_service import ScanService
-from app.schemas.scan_dto import PortScanRequest, FastScanRequest
-from app.schemas.response_dto import SuccessResponse, ErrorResponse
+from app.schemas.scan_dtos import PortScanRequest, FastScanRequest
+from app.schemas.response_dtos import SuccessResponse, ErrorResponse
 from app.utils.logger import controller_logger, log_function_entry, log_function_exit
 from pydantic import ValidationError
 

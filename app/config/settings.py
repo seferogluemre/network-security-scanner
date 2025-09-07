@@ -1,6 +1,7 @@
+from typing import Optional
+import os
 
-
-class  Config:
+class Config:
     """Base configuration class."""
     SECRET_KEY=os.environ.get('SECRET_KEY') or 'dev-secret-key-change-in-production'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -34,3 +35,4 @@ def get_config(config_name: Optional[str] = None) -> Config:
     """Get configuration by name"""
     config_name = config_name or os.environ.get('FLASK_ENV', 'default')
     return config_by_name.get(config_name, DevelopmentConfig)
+

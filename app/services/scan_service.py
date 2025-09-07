@@ -1,7 +1,7 @@
 from typing import List, Optional, Dict, Any
 from app.repositories.scan_repository import ScanRepository
 from app.repositories.host_repository import HostRepository
-from app.schemas.scan_dto import PortScanRequest, FastScanRequest
+from app.schemas.scan_dtos import PortScanRequest, FastScanRequest
 from app.utils.logger import service_logger, log_function_entry, log_function_exit
 from core.port_scanner import PortScanner
 from core.threaded_scanner import FastPortScanner
